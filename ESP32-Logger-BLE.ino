@@ -60,6 +60,47 @@ class MyServerCallbacks: public BLEServerCallbacks {
     }
 };
 
+class MyCallbacks: public BLECharacteristicCallbacks {
+
+    void onStatus(BLECharacteristic* pCharacteristic, Status s, uint32_t code) {
+      Serial.print("Status ");
+      Serial.print(s);
+      Serial.print(" on characteristic ");
+      Serial.print(pCharacteristic->getUUID().toString().c_str());
+      Serial.print(" with code ");
+      Serial.println(code);
+    }
+
+    void onNotify(BLECharacteristic *pCharacteristic) {
+      uint8_t* pData;
+      std::string value = pCharacteristic->getValue();
+      int len = value.length();
+      pData = pCharacteristic->getData();
+      if (pData != NULL) {
+        Serial.print("TX  ");
+        for (int i = 0; i < len; i++) {
+          Serial.printf("%02X ", pData[i]);
+        }
+        Serial.println();
+      }
+    }
+
+    void onWrite(BLECharacteristic *pCharacteristic) {
+      uint8_t* pData;
+      std::string value = pCharacteristic->getValue();
+      int len = value.length();
+      pData = pCharacteristic->getData();
+      if (pData != NULL) {
+        Serial.print("RX  ");
+        for (int i = 0; i < len; i++) {
+          Serial.printf("%02X ", pData[i]);
+        }
+        Serial.println();
+      }
+      
+    }
+};
+
 void setup() {
   Serial.begin(115200);
   
