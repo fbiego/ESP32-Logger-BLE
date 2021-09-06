@@ -101,6 +101,13 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           Serial.printf("%02X ", pData[i]);
         }
         Serial.println();
+        if (pData[0] == 0xBA) {
+          batLogs = true;
+        } else if (pData[0] == 0xBF) {
+          if (FLASH.exists("/logs.bin")) {
+            FLASH.remove("/logs.bin");
+          }
+        }
       }
 
     }
@@ -189,7 +196,7 @@ void sendLogs(const char * path) {
     delay(50);
     Serial.println("- failed to open file for reading");
     return;
-  }  
+  }
   int x = 0;
   bool y = false;
   while (file.available()) {
