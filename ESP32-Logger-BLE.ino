@@ -46,6 +46,18 @@
 static BLECharacteristic* pCharacteristicTX;
 static BLECharacteristic* pCharacteristicRX;
 
+static bool deviceConnected = false
+
+class MyServerCallbacks: public BLEServerCallbacks {
+    void onConnect(BLEServer* pServer) {
+      deviceConnected = true;
+
+    }
+    void onDisconnect(BLEServer* pServer) {
+      deviceConnected = false;
+    }
+};
+
 void setup() {
   Serial.begin(115200);
   
