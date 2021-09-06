@@ -101,7 +101,9 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           Serial.printf("%02X ", pData[i]);
         }
         Serial.println();
-        if (pData[0] == 0xBA) {
+        if (pData[0] == 0xCA) {
+          getLogs = true;
+        } else if (pData[0] == 0xBA) {
           getLogs = true;
         } else if (pData[0] == 0xBF) {
           if (FLASH.exists("/logs.bin")) {
@@ -182,7 +184,7 @@ void loop() {
     writeBinary("/logs.bin", logger, LOG);
   }
 
-  if (getLogs){
+  if (getLogs) {
     sendLogs("/logs.bin");
     getLogs = false;
   }
