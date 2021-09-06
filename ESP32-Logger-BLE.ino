@@ -195,8 +195,16 @@ void loop() {
     getLogs = false;
   }
 
-  if (getUsage){
-    
+  if (getUsage) {
+    int used = FLASH.usedBytes();
+    int total = FLASH.totalBytes();
+    uint8_t dat[7];
+    dat[0] = 0xDA;
+    dat[1] = (used >> 16);
+    dat[2] = (used >> 8);
+    dat[3] = (used&0xFF);
+    Serial.print("Used: ");
+    Serial.println(used);
   }
 
 }
