@@ -106,9 +106,9 @@ class MyCallbacks: public BLECharacteristicCallbacks {
     }
 };
 
-void writeBinary(fs::FS &fs, const char * path, uint8_t *dat, int len) {
+void writeBinary(const char * path, uint8_t *dat, int len) {
 
-  File file = fs.open(path, FILE_APPEND);
+  File file = FLASH.open(path, FILE_APPEND);
 
   if (!file) {
     Serial.println("- failed to open file for writing");
@@ -172,7 +172,7 @@ void loop() {
     logger[2] = analogRead(34) % 100;
     logger[3] = analogRead(35) / 100;
     logger[4] = analogRead(35) % 100;
-    writeBinary(FLASH, "/logs.bin", logger, LOG);
+    writeBinary("/logs.bin", logger, LOG);
   }
 
 }
