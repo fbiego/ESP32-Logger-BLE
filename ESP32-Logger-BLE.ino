@@ -43,14 +43,16 @@
 #define CHARACTERISTIC_UUID_RX    "fb1e4002-54ae-4a28-9f74-dfccb248601d"
 #define CHARACTERISTIC_UUID_TX    "fb1e4003-54ae-4a28-9f74-dfccb248601d"
 
+
+
 ESP32Time rtc;
 
 static BLECharacteristic* pCharacteristicTX;
 static BLECharacteristic* pCharacteristicRX;
 
-static bool deviceConnected = false
+static bool deviceConnected = false;
 
-                              class MyServerCallbacks: public BLEServerCallbacks {
+class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
       deviceConnected = true;
 
