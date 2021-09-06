@@ -155,6 +155,7 @@ void initBLE() {
 void setup() {
   Serial.begin(115200);
 
+  rtc.setTime(1609459200);
 #ifdef USE_SPIFFS
   if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {
     Serial.println("SPIFFS Mount Failed");
