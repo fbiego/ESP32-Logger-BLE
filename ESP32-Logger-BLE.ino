@@ -45,10 +45,10 @@
 static BLECharacteristic* pCharacteristicTX;
 static BLECharacteristic* pCharacteristicRX;
 
-void setup(){
-  
+void setup() {
+
 }
 
-void loop(){
-  
+void loop() {
+
 }
