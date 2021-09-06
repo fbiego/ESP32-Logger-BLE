@@ -155,7 +155,7 @@ void setup() {
 #endif
 
 
-initBLE();
+  initBLE();
 }
 
 void loop() {
