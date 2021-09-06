@@ -153,6 +153,9 @@ void setup() {
     return;
   }
 #endif
+
+
+initBLE();
 }
 
 void loop() {
