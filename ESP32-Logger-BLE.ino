@@ -105,6 +105,8 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           rtc.setTime(pData[2], pData[3], pData[4], pData[5], pData[6], pData[7] * 256 + pData[8]);
         } else if (pData[0] == 0xBA) {
           getLogs = true;
+        } else if (pData[0] == 0xDA) {
+          getUsage = true;
         } else if (pData[0] == 0xBF) {
           if (FLASH.exists("/logs.bin")) {
             FLASH.remove("/logs.bin");
