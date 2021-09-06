@@ -43,6 +43,7 @@
 #define CHARACTERISTIC_UUID_RX    "fb1e4002-54ae-4a28-9f74-dfccb248601d"
 #define CHARACTERISTIC_UUID_TX    "fb1e4003-54ae-4a28-9f74-dfccb248601d"
 
+#define LOG 5
 
 ESP32Time rtc;
 
@@ -50,8 +51,9 @@ static BLECharacteristic* pCharacteristicTX;
 static BLECharacteristic* pCharacteristicRX;
 
 static bool deviceConnected = false;
-static int interval = 5, logSize = 5;
+static int interval = 5;
 int mins = 0;
+uint8_t logger[LOG];
 
 class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
