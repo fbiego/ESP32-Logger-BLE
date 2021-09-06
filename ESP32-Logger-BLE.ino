@@ -113,6 +113,31 @@ void writeBinary(fs::FS &fs, const char * path, uint8_t *dat, int len) {
   file.close();
 }
 
+void initBLE() {
+  BLEDevice::init("ESP32 Logger");
+  BLEServer *pServer = BLEDevice::createServer();
+  pServer->setCallbacks(new MyServerCallbacks());
+
+  BLEService *pService = pServer->createService(SERVICE_UUID);
+  pCharacteristicTX = pService->createCharacteristic(CHARACTERISTIC_UUID_TX, BLECharacteristic::PROPERTY_NOTIFY );
+  pCharacteristicRX = pService->createCharacteristic(CHARACTERISTIC_UUID_RX, BLECharacteristic::PROPERTY_WRITE | BLECharacteristic::PROPERTY_WRITE_NR);
+  pCharacteristicRX->setCallbacks(new MyCallbacks());
+  pCharacteristicTX->setCallbacks(new MyCallbacks());
+  pCharacteristicTX->addDescriptor(new BLE2902());
+  pCharacteristicTX->setNotifyProperty(true);
+  pService->start();
+
+
+  // BLEAdvertising *pAdvertising = pServer->getAdvertising();  // this still is working for backward compatibility
+  BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
+  pAdvertising->addServiceUUID(SERVICE_UUID);
+  pAdvertising->setScanResponse(true);
+  pAdvertising->setMinPreferred(0x06);  // functions that help with iPhone connections issue
+  pAdvertising->setMinPreferred(0x12);
+  BLEDevice::startAdvertising();
+  Serial.println("Characteristic defined! Now you can read it in your phone!");
+}
+
 void setup() {
   Serial.begin(115200);
 
