@@ -204,8 +204,13 @@ void loop() {
     dat[1] = (used >> 16);
     dat[2] = (used >> 8);
     dat[3] = (used & 0xFF);
-    Serial.print("Used: ");
-    Serial.println(used);
+    dat[4] = (total >> 16);
+    dat[5] = (total >> 8);
+    dat[6] = (total & 0xFF);
+    Serial.print("Usage: ");
+    Serial.print(used);
+    Serial.print("/");
+    Serial.println(total);
     pCharacteristicTX->setValue(dat, 7);
     pCharacteristicTX->notify();
     delay(50);
