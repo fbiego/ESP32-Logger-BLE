@@ -176,3 +176,37 @@ void loop() {
   }
 
 }
+
+void sendLogs(fs::FS &fs, const char * path) {
+  Serial.printf("Reading file: %s\r\n", path);
+
+  uint8_t com[LOG];
+  File file = fs.open(path);
+  if (!file || file.isDirectory()) {
+    com[0] = 0xBA;
+    pCharacteristicTX->setValue(com, 8);
+    pCharacteristicTX->notify();
+    delay(50);
+    Serial.println("- failed to open file for reading");
+    return;
+  }  
+  int x = 0;
+  bool y = false;
+  while (file.available()) {
+    uint8_t c = file.read();
+    if (c == 0xBA) {
+      y = true;
+    }
+    if (y) {
+      com[x] = c;
+      x++;
+    }
+    if (x == LOG) {
+      y = false;
+      x = 0;
+      pCharacteristicTX->setValue(com, LOG);
+      pCharacteristicTX->notify();
+      delay(50);
+    }
+  }
+}
