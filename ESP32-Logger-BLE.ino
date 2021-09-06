@@ -203,12 +203,12 @@ void loop() {
     dat[0] = 0xDA;
     dat[1] = (used >> 16);
     dat[2] = (used >> 8);
-    dat[3] = (used&0xFF);
+    dat[3] = (used & 0xFF);
     Serial.print("Used: ");
     Serial.println(used);
-    pCharacteristicTX->setValue(com, LOG);
-      pCharacteristicTX->notify();
-      delay(50);
+    pCharacteristicTX->setValue(dat, 7);
+    pCharacteristicTX->notify();
+    delay(50);
   }
 
 }
