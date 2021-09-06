@@ -188,7 +188,7 @@ void loop() {
     logger[6] = analogRead(35) / 100;
     logger[7] = analogRead(35) % 100;
     String filename = rtc.getTime("/log-%j-%Y.bin");
-    writeBinary(filename, logger, LOG);
+    writeBinary(filename.c_str(), logger, LOG);
   }
 
   if (getLogs) {
