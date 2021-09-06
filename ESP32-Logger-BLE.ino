@@ -187,7 +187,8 @@ void loop() {
     logger[5] = analogRead(34) % 100;
     logger[6] = analogRead(35) / 100;
     logger[7] = analogRead(35) % 100;
-    writeBinary("/logs.bin", logger, LOG);
+    String filename = rtc.getTime("/log-%j-%Y.bin");
+    writeBinary(filename, logger, LOG);
   }
 
   if (getLogs) {
@@ -210,7 +211,7 @@ void loop() {
     Serial.print("Usage: ");
     Serial.print(used);
     Serial.print("/");
-    Serial.println(total);
+    Serial.println(total );
     pCharacteristicTX->setValue(dat, 7);
     pCharacteristicTX->notify();
     delay(50);
