@@ -195,6 +195,10 @@ void loop() {
     getLogs = false;
   }
 
+  if (getUsage){
+    
+  }
+
 }
 
 void sendLogs(const char * path) {
