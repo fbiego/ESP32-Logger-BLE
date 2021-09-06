@@ -165,4 +165,14 @@ void setup() {
 
 void loop() {
 
+  if (rtc.getMinute() / interval != mins) {
+    mins = rtc.getMinute() / interval;
+    logger[0] = 0xBA;
+    logger[1] = analogRead(34) / 100;
+    logger[2] = analogRead(34) % 100;
+    logger[3] = analogRead(35) / 100;
+    logger[4] = analogRead(35) % 100;
+    writeBinary(FLASH, "/logs.bin", logger, LOG);
+  }
+
 }
