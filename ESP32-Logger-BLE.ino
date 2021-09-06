@@ -177,14 +177,14 @@ void loop() {
 
 }
 
-void sendLogs(fs::FS &fs, const char * path) {
+void sendLogs(const char * path) {
   Serial.printf("Reading file: %s\r\n", path);
 
   uint8_t com[LOG];
-  File file = fs.open(path);
+  File file = FLASH.open(path);
   if (!file || file.isDirectory()) {
     com[0] = 0xBA;
-    pCharacteristicTX->setValue(com, 8);
+    pCharacteristicTX->setValue(com, LOG);
     pCharacteristicTX->notify();
     delay(50);
     Serial.println("- failed to open file for reading");
