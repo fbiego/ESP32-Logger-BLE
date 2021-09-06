@@ -25,6 +25,7 @@
 #include <BLEUtils.h>
 #include <BLEServer.h>
 #include <BLE2902.h>
+#include <ESP32Time.h>
 
 #define BUILTINLED 2
 #define FORMAT_SPIFFS_IF_FAILED true
