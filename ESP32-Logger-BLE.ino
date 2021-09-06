@@ -51,6 +51,7 @@ static BLECharacteristic* pCharacteristicRX;
 
 static bool deviceConnected = false;
 static int interval = 5, logSize = 5;
+int mins = 0;
 
 class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
