@@ -50,7 +50,7 @@ ESP32Time rtc;
 static BLECharacteristic* pCharacteristicTX;
 static BLECharacteristic* pCharacteristicRX;
 
-static bool deviceConnected = false, getLogs = false;
+static bool deviceConnected = false, getLogs = false, getUsage = false;
 static int interval = 5;
 int mins = 0;
 uint8_t logger[LOG];
