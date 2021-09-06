@@ -47,7 +47,18 @@ static BLECharacteristic* pCharacteristicTX;
 static BLECharacteristic* pCharacteristicRX;
 
 void setup() {
-
+#ifdef USE_SPIFFS
+  if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {
+    Serial.println("SPIFFS Mount Failed");
+    return;
+  }
+#else
+  if (!FFat.begin()) {
+    Serial.println("FFat Mount Failed");
+    if (FORMAT_FFAT_IF_FAILED) FFat.format();
+    return;
+  }
+#endif
 }
 
 void loop() {
