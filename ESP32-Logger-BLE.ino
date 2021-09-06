@@ -237,6 +237,8 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels) {
     return;
   }
 
+  uint8_t item[20];
+  item[0] = 0xDB;
   File file = root.openNextFile();
   while (file) {
     if (file.isDirectory()) {
@@ -245,12 +247,29 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels) {
       if (levels) {
         listDir(fs, file.name(), levels - 1);
       }
+      item[1] = 1;
     } else {
       Serial.print("  FILE: ");
       Serial.print(file.name());
       Serial.print("\tSIZE: ");
       Serial.println(file.size());
+      item[1] = 2;
     }
+    item[2] = (file.size() >> 16);
+    item[3] = (file.size() >> 8);
+    item[4] = (file.size() & 0xFF);
+    String n = file.name();
+    int len = n.length();
+    if (n.length() > 14){
+      len = 14;
+    }
+    item[5] = --len;
+    for (int z = 0; z < len; z++){
+      item[z+6] = n.charAt(z+1);
+    }
+    pCharacteristicTX->setValue(item, 20);
+    pCharacteristicTX->notify();
+    delay(50);
     file = root.openNextFile();
   }
 }
