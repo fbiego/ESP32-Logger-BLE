@@ -182,6 +182,11 @@ void loop() {
     writeBinary("/logs.bin", logger, LOG);
   }
 
+  if (getLogs){
+    sendLogs("/logs.bin");
+    getLogs = false;
+  }
+
 }
 
 void sendLogs(const char * path) {
