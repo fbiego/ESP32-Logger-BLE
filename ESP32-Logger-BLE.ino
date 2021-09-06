@@ -178,10 +178,13 @@ void loop() {
   if (rtc.getMinute() / interval != mins) {
     mins = rtc.getMinute() / interval;
     logger[0] = 0xBA;
-    logger[1] = analogRead(34) / 100;
-    logger[2] = analogRead(34) % 100;
-    logger[3] = analogRead(35) / 100;
-    logger[4] = analogRead(35) % 100;
+    logger[1] = rtc.getDay();
+    logger[2] = rtc.getHour(true);
+    logger[3] = rtc.getMinute();
+    logger[4] = analogRead(34) / 100;
+    logger[5] = analogRead(34) % 100;
+    logger[6] = analogRead(35) / 100;
+    logger[7] = analogRead(35) % 100;
     writeBinary("/logs.bin", logger, LOG);
   }
 
