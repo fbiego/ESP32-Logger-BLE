@@ -107,14 +107,10 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           getLogs = true;
         } else if (pData[0] == 0xDA) {
           getUsage = true;
-        } else if (pData[0] == 0xFA) {
-          listFiles = true;
         } else if (pData[0] == 0xFF) {
-          FLASH.format();
+          listFiles = true;
         } else if (pData[0] == 0xBF) {
-          if (FLASH.exists("/logs.bin")) {
-            FLASH.remove("/logs.bin");
-          }
+          FLASH.format();
         }
       }
 
