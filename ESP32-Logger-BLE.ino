@@ -18,6 +18,26 @@
    SOFTWARE.
 */
 
+#include "FS.h"
+#include "FFat.h"
+#include "SPIFFS.h"
+#include <BLEDevice.h>
+#include <BLEUtils.h>
+#include <BLEServer.h>
+#include <BLE2902.h>
+
+#define BUILTINLED 2
+#define FORMAT_SPIFFS_IF_FAILED true
+#define FORMAT_FFAT_IF_FAILED true
+
+#define USE_SPIFFS  //comment to use FFat
+
+#ifdef USE_SPIFFS
+#define FLASH SPIFFS
+#else
+#define FLASH FFat
+#endif
+
 #define SERVICE_UUID              "fb1e4001-54ae-4a28-9f74-dfccb248601d"
 #define CHARACTERISTIC_UUID_RX    "fb1e4002-54ae-4a28-9f74-dfccb248601d"
 #define CHARACTERISTIC_UUID_TX    "fb1e4003-54ae-4a28-9f74-dfccb248601d"
