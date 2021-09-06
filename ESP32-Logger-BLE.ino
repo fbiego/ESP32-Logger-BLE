@@ -221,7 +221,7 @@ void loop() {
 
   if(listFiles){
     listFiles = false;
-    listDir(SPIFFS, "/", 0);
+    listDir(FLASH, "/", 0);
   }
 
 }
