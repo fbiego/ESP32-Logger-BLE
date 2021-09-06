@@ -196,6 +196,7 @@ void loop() {
   }
 
   if (getUsage) {
+    getUsage = false;
     int used = FLASH.usedBytes();
     int total = FLASH.totalBytes();
     uint8_t dat[7];
@@ -205,6 +206,9 @@ void loop() {
     dat[3] = (used&0xFF);
     Serial.print("Used: ");
     Serial.println(used);
+    pCharacteristicTX->setValue(com, LOG);
+      pCharacteristicTX->notify();
+      delay(50);
   }
 
 }
