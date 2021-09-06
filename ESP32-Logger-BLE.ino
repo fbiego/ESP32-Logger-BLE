@@ -50,7 +50,7 @@ static BLECharacteristic* pCharacteristicRX;
 
 static bool deviceConnected = false
 
-class MyServerCallbacks: public BLEServerCallbacks {
+                              class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
       deviceConnected = true;
 
@@ -97,13 +97,25 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         }
         Serial.println();
       }
-      
+
     }
 };
 
+void writeBinary(fs::FS &fs, const char * path, uint8_t *dat, int len) {
+
+  File file = fs.open(path, FILE_APPEND);
+
+  if (!file) {
+    Serial.println("- failed to open file for writing");
+    return;
+  }
+  file.write(dat, len);
+  file.close();
+}
+
 void setup() {
   Serial.begin(115200);
-  
+
 #ifdef USE_SPIFFS
   if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {
     Serial.println("SPIFFS Mount Failed");
