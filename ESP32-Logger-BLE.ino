@@ -107,8 +107,10 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           getLogs = true;
         } else if (pData[0] == 0xDA) {
           getUsage = true;
-        }  else if (pData[0] == 0xFF) {
+        } else if (pData[0] == 0xFA) {
           listFiles = true;
+        } else if (pData[0] == 0xFF) {
+          FLASH.format();
         } else if (pData[0] == 0xBF) {
           if (FLASH.exists("/logs.bin")) {
             FLASH.remove("/logs.bin");
@@ -219,42 +221,42 @@ void loop() {
     delay(50);
   }
 
-  if(listFiles){
+  if (listFiles) {
     listFiles = false;
     listDir(FLASH, "/", 0);
   }
 
 }
 
-void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
-    Serial.printf("Listing directory: %s\r\n", dirname);
+void listDir(fs::FS &fs, const char * dirname, uint8_t levels) {
+  Serial.printf("Listing directory: %s\r\n", dirname);
 
-    File root = fs.open(dirname);
-    if(!root){
-        Serial.println("- failed to open directory");
-        return;
-    }
-    if(!root.isDirectory()){
-        Serial.println(" - not a directory");
-        return;
-    }
+  File root = fs.open(dirname);
+  if (!root) {
+    Serial.println("- failed to open directory");
+    return;
+  }
+  if (!root.isDirectory()) {
+    Serial.println(" - not a directory");
+    return;
+  }
 
-    File file = root.openNextFile();
-    while(file){
-        if(file.isDirectory()){
-            Serial.print("  DIR : ");
-            Serial.println(file.name());
-            if(levels){
-                listDir(fs, file.name(), levels -1);
-            }
-        } else {
-            Serial.print("  FILE: ");
-            Serial.print(file.name());
-            Serial.print("\tSIZE: ");
-            Serial.println(file.size());
-        }
-        file = root.openNextFile();
+  File file = root.openNextFile();
+  while (file) {
+    if (file.isDirectory()) {
+      Serial.print("  DIR : ");
+      Serial.println(file.name());
+      if (levels) {
+        listDir(fs, file.name(), levels - 1);
+      }
+    } else {
+      Serial.print("  FILE: ");
+      Serial.print(file.name());
+      Serial.print("\tSIZE: ");
+      Serial.println(file.size());
     }
+    file = root.openNextFile();
+  }
 }
 
 void sendLogs(const char * path) {
