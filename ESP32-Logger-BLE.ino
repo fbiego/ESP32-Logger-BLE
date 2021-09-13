@@ -68,12 +68,12 @@ class MyServerCallbacks: public BLEServerCallbacks {
 class MyCallbacks: public BLECharacteristicCallbacks {
 
     void onStatus(BLECharacteristic* pCharacteristic, Status s, uint32_t code) {
-      Serial.print("Status ");
-      Serial.print(s);
-      Serial.print(" on characteristic ");
-      Serial.print(pCharacteristic->getUUID().toString().c_str());
-      Serial.print(" with code ");
-      Serial.println(code);
+      //      Serial.print("Status ");
+      //      Serial.print(s);
+      //      Serial.print(" on characteristic ");
+      //      Serial.print(pCharacteristic->getUUID().toString().c_str());
+      //      Serial.print(" with code ");
+      //      Serial.println(code);
     }
 
     void onNotify(BLECharacteristic *pCharacteristic) {
@@ -260,12 +260,12 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels) {
     item[4] = (file.size() & 0xFF);
     String n = file.name();
     int len = n.length();
-    if (n.length() > 14){
+    if (n.length() > 14) {
       len = 14;
     }
     item[5] = --len;
-    for (int z = 0; z < len; z++){
-      item[z+6] = n.charAt(z+1);
+    for (int z = 0; z < len; z++) {
+      item[z + 6] = n.charAt(z + 1);
     }
     pCharacteristicTX->setValue(item, 20);
     pCharacteristicTX->notify();
