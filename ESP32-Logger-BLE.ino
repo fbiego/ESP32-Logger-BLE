@@ -215,12 +215,9 @@ void loop() {
     pCharacteristicTX->setValue(dat, 7);
     pCharacteristicTX->notify();
     delay(50);
-  }
-
-  if (listFiles) {
-    listFiles = false;
     listDir(FLASH, "/", 0);
   }
+
 
 }
 
@@ -260,7 +257,7 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels) {
     item[4] = (file.size() & 0xFF);
     String n = file.name();
     int len = n.length();
-    if (n.length() > 14) {
+    if (len > 14) {
       len = 14;
     }
     item[5] = --len;
