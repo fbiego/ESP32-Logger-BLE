@@ -105,12 +105,19 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         if (pData[0] == 0xCA) {
           rtc.setTime(pData[2], pData[3], pData[4], pData[5], pData[6], pData[7] * 256 + pData[8]);
         } else if (pData[0] == 0xBA) {
-          getLogs = true;
           fName = "/";
           for (int x = 2; x < len; x++){
             fName += (char)pData[x];
           }
-          Serial.println(fName);
+          Serial.print(fName);
+          if (pData[1] == 1){
+            getLogs = true;
+            Serial.println(" -> Read");
+          } else if (pData[1] == 2){
+            FLASH.remove(fName.c_str());
+            Serial.println(" -> Deleted");
+          }
+          
         } else if (pData[0] == 0xDA) {
           getUsage = true;
         } else if (pData[0] == 0xBF) {
@@ -196,7 +203,7 @@ void loop() {
   }
 
   if (getLogs) {
-    sendLogs(fName);
+    sendLogs(fName.c_str());
     getLogs = false;
   }
 
