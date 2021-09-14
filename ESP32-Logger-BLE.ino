@@ -51,6 +51,7 @@ static BLECharacteristic* pCharacteristicTX;
 static BLECharacteristic* pCharacteristicRX;
 
 static bool deviceConnected = false, getLogs = false, getUsage = false;
+static String fName = "";
 static int interval = 5;
 int mins = 0;
 uint8_t logger[LOG];
@@ -105,6 +106,10 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           rtc.setTime(pData[2], pData[3], pData[4], pData[5], pData[6], pData[7] * 256 + pData[8]);
         } else if (pData[0] == 0xBA) {
           getLogs = true;
+          fName = "/";
+          for (int x = 2; x < len; x++){
+            fName += (char)pData[x];
+          }
         } else if (pData[0] == 0xDA) {
           getUsage = true;
         } else if (pData[0] == 0xBF) {
