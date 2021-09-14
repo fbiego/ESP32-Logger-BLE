@@ -110,6 +110,7 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           for (int x = 2; x < len; x++){
             fName += (char)pData[x];
           }
+          Serial.println(fName);
         } else if (pData[0] == 0xDA) {
           getUsage = true;
         } else if (pData[0] == 0xBF) {
@@ -195,7 +196,7 @@ void loop() {
   }
 
   if (getLogs) {
-    sendLogs("/logs.bin");
+    sendLogs(fName);
     getLogs = false;
   }
 
