@@ -107,8 +107,6 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           getLogs = true;
         } else if (pData[0] == 0xDA) {
           getUsage = true;
-        } else if (pData[0] == 0xFF) {
-          listFiles = true;
         } else if (pData[0] == 0xBF) {
           FLASH.format();
         }
