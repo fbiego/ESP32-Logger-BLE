@@ -31,7 +31,7 @@
 #define FORMAT_SPIFFS_IF_FAILED true
 #define FORMAT_FFAT_IF_FAILED true
 
-#define USE_SPIFFS  //comment to use FFat
+//#define USE_SPIFFS  //comment to use FFat
 
 #ifdef USE_SPIFFS
 #define FLASH SPIFFS
@@ -52,7 +52,7 @@ static BLECharacteristic* pCharacteristicRX;
 
 static bool deviceConnected = false, getLogs = false, getUsage = false;
 static String fName = "";
-static int interval = 5;
+static int interval = 1;
 int mins = 0;
 uint8_t logger[LOG];
 
@@ -63,6 +63,7 @@ class MyServerCallbacks: public BLEServerCallbacks {
     }
     void onDisconnect(BLEServer* pServer) {
       deviceConnected = false;
+      pServer->startAdvertising();
     }
 };
 
@@ -172,13 +173,13 @@ void setup() {
 #ifdef USE_SPIFFS
   if (!SPIFFS.begin(FORMAT_SPIFFS_IF_FAILED)) {
     Serial.println("SPIFFS Mount Failed");
-    return;
+    ESP.restart();
   }
 #else
   if (!FFat.begin()) {
     Serial.println("FFat Mount Failed");
     if (FORMAT_FFAT_IF_FAILED) FFat.format();
-    return;
+    ESP.restart();
   }
 #endif
 
@@ -191,7 +192,7 @@ void loop() {
   if (rtc.getMinute() / interval != mins) {
     mins = rtc.getMinute() / interval;
     logger[0] = 0xBA;
-    logger[1] = rtc.getDay();
+    logger[1] = rtc.getDayofYear();
     logger[2] = rtc.getHour(true);
     logger[3] = rtc.getMinute();
     logger[4] = analogRead(34) / 100;
